@@ -47,6 +47,7 @@ public class GameController : MonoBehaviour {
 			DestroyLevel();
 			InitLevel();
 			startBlock.Init();
+			theCamera.transform.position = new Vector3(0, 12.5f, -10);
 		}
 	}
 	
