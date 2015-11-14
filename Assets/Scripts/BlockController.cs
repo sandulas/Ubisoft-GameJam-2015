@@ -22,7 +22,7 @@ public class BlockController : MonoBehaviour {
 	public bool canTumble = false;
 	public bool isTumbling = false;
 
-	float tumbleTime = 1;
+	public static float tumbleTime = 1;
 
 	public void Init(){
 		if (isDummy){
@@ -45,6 +45,7 @@ public class BlockController : MonoBehaviour {
 
 			transform.localEulerAngles = Vector3.up * (type - 1) * 90;
 		}
+		SetToMatrixPosition();
 	}
 
 	public void SetToMatrixPosition(){
@@ -62,6 +63,12 @@ public class BlockController : MonoBehaviour {
 		return true;
 	}
 
+	void Update(){
+		if (isTumbling){
+			TheCamera.targetPosition = tumblePivot2.transform.position;
+		}
+	}
+
 	public void Tumble1(){
 
 		isTumbling = true;
@@ -74,8 +81,9 @@ public class BlockController : MonoBehaviour {
 			GameController.dummyBlock.Tumble1();
 		}
 
-		if (!isDummy)
+		if (!isDummy){
 			GameController.levelBlocks[column, row] = null;
+		}
 
 		Debug.Log("tumble " + " row" + row + "column" + column);
 		collider.enabled = false;
@@ -84,7 +92,7 @@ public class BlockController : MonoBehaviour {
 	}
 
 	public void Tumble2(){
-		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(tumbleTime / 2);
+		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(tumbleTime / 3);
 	}
 
 	void OnTumble1Complete(){

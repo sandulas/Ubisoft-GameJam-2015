@@ -125,7 +125,7 @@ public class DominoRacer : MonoBehaviour {
 
 	IEnumerator Game(){
 		yield return new WaitForSeconds(3);
-		int counter = 0;
+
 		while(true){
 
 			int rand = Random.Range(-3, lanes + 3);

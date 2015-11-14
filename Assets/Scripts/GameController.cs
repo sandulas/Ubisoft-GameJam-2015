@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -11,14 +12,28 @@ public class GameController : MonoBehaviour {
 
 	public GameObject levelParent;
 
+	public BlockStartController startBlock;
 
-	public static int rows = 6;
+
+	public static int rows = 130;
 	public static int columns = 4;
 
 	// Use this for initialization
 	void Start () {
 		theCamera = gameCamera;
-		InitLevel();
+
+		InitDummy();
+
+
+	}
+
+	void OnGUI(){
+
+		if (GUI.Button(new Rect(0, 0, Screen.width, 50), "NEW GAME")){
+			DestroyLevel();
+			InitLevel();
+			startBlock.Init();
+		}
 	}
 	
 	void Update(){
@@ -56,21 +71,26 @@ public class GameController : MonoBehaviour {
 
 	public static BlockController[,] levelBlocks;
 	public static BlockController dummyBlock;
+	public static List<BlockController> outsideBlocks;
 
-	void InitLevel()
-	{
+	void InitDummy(){
 		GameObject blockGODummy = Instantiate(prefabBlock) as GameObject;
 		dummyBlock = blockGODummy.GetComponent<BlockController>();
-
+		
 		dummyBlock.isDummy = true;
 		dummyBlock.row = -1;
 		dummyBlock.column = -1;
-
+		
 		dummyBlock.Init();
-		dummyBlock.SetToMatrixPosition();
-
+		
 		blockGODummy.name = "DUMMY";
-	
+
+		TheCamera.targetPosition = blockGODummy.transform.position;
+	}
+
+	void InitLevel()
+	{
+		outsideBlocks = new List<BlockController>();
 
 		int[,] level = LevelGenerator.Generate (rows);
 		levelBlocks = new BlockController[columns, rows];
@@ -79,7 +99,7 @@ public class GameController : MonoBehaviour {
 		{
 			for (int column = 0; column < columns; column++)
 			{
-				GameObject blockGO = Instantiate(prefabBlock) as GameObject;
+				GameObject blockGO = NewBlock();
 				BlockController block = blockGO.GetComponent<BlockController>();
 
 				levelBlocks[column, row] = block;
@@ -88,7 +108,7 @@ public class GameController : MonoBehaviour {
 				block.column = column;
 				block.type = level [column, row];
 				block.Init();
-				block.SetToMatrixPosition();
+//				block.SetToMatrixPosition();
 
 				blockGO.name = " row" + row + "column" + column + " type" + level [column, row];
 				blockGO.transform.parent = levelParent.transform;
@@ -97,7 +117,34 @@ public class GameController : MonoBehaviour {
 			Debug.Log (level [0, row] + ", " + level [1, row] + ", " + level [2, row] + ", " + level [3, row]);
 		}
 
-		gameCamera.transform.position = new Vector3(0, 12.5f, 5);
+//		gameCamera.transform.position = new Vector3(0, 12.5f, 5);
+	}
+
+	public GameObject NewBlock(){
+		return Instantiate(prefabBlock) as GameObject;
+	}
+
+	void DestroyLevel(){
+		if (outsideBlocks != null){
+			for(int i = 0; i < outsideBlocks.Count; i++)
+				if (outsideBlocks[i] != null)
+					Destroy(outsideBlocks[i].gameObject);
+		}
+		if (levelBlocks != null){
+			for (int row = 0; row < rows; row++)
+			{
+				for (int column = 0; column < columns; column++)
+				{
+					if (levelBlocks[column, row] != null)
+					{
+						Destroy(levelBlocks[column, row].gameObject);
+					}
+				}
+			}
+		}
+		levelBlocks = null;
+		outsideBlocks = null;
+
 	}
 
 
