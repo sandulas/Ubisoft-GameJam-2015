@@ -69,7 +69,7 @@ public static class LevelGenerator
 		//add obstacle (some cubes are replaced with obstacles)
 		for (int rowIndex = 1; rowIndex < rowCount; rowIndex++)
 		{
-			int obstacleCount = Random.Range (0, 4);
+			int obstacleCount = Random.Range (0, 2);
 			//obstacleCount = 2;
 
 			placeObstacles (rowIndex, obstacleCount);
