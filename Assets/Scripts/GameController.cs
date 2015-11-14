@@ -18,6 +18,15 @@ public class GameController : MonoBehaviour {
 	public static int rows = 130;
 	public static int columns = 4;
 
+
+	public static BlockController[,] levelBlocks;
+	public static BlockController dummyBlockLeft;
+	public static BlockController dummyBlockRight;
+	public static List<BlockController> outsideBlocks;
+
+	public static bool isGameOver = false;
+
+
 	// Use this for initialization
 	void Start () {
 		theCamera = gameCamera;
@@ -30,6 +39,11 @@ public class GameController : MonoBehaviour {
 	void OnGUI(){
 
 		if (GUI.Button(new Rect(0, 0, Screen.width, 50), "NEW GAME")){
+			isGameOver = false;
+
+			dummyBlockLeft.gameObject.SetActive(false);
+			dummyBlockRight.gameObject.SetActive(false);
+
 			DestroyLevel();
 			InitLevel();
 			startBlock.Init();
@@ -37,6 +51,8 @@ public class GameController : MonoBehaviour {
 	}
 	
 	void Update(){
+		if (isGameOver)
+			return;
 		if (Input.GetMouseButtonDown(0))
 		{
 			BlockController block = GetBlockForScreenPos(Input.mousePosition);
@@ -69,10 +85,7 @@ public class GameController : MonoBehaviour {
 		return null;
 	}
 
-	public static BlockController[,] levelBlocks;
-	public static BlockController dummyBlockLeft;
-	public static BlockController dummyBlockRight;
-	public static List<BlockController> outsideBlocks;
+
 
 	void InitDummy(){
 		GameObject blockGODummy = Instantiate(prefabBlock) as GameObject;

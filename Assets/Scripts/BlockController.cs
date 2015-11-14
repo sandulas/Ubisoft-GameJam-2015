@@ -29,7 +29,7 @@ public class BlockController : MonoBehaviour {
 	public void Init(){
 		if (isDummy){
 			type = 1;
-			tumblePivot1.SetActive(false);
+			gameObject.SetActive(false);
 		}
 
 //		if (type == 0)
@@ -98,7 +98,8 @@ public class BlockController : MonoBehaviour {
 
 		Debug.Log("tumble " + " row" + row + "column" + column);
 		collider.enabled = false;
-		tumblePivot1.SetActive(true);
+		if (isDummy)
+			gameObject.SetActive(true);
 		tumblePivot1.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble1Complete);
 	}
 
@@ -113,6 +114,7 @@ public class BlockController : MonoBehaviour {
 		}
 
 		BlockController nextBlock = GetNextBlock();
+		bool isGameOver = true;
 		if (nextBlock != null){
 			if (nextBlock.CanTumble()){
 				if (column == GameController.columns - 1){
@@ -121,10 +123,14 @@ public class BlockController : MonoBehaviour {
 				else if (column == 0){
 					GameController.dummyBlockRight.Tumble2();
 				}
-
+				isGameOver = false;
 				Tumble2();
 				nextBlock.Tumble1();
 			}
+		}
+		if (isGameOver){
+			GameController.isGameOver = true;
+			Debug.Log("GAME OVER");
 		}
 	}
 

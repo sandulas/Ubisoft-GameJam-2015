@@ -64,12 +64,17 @@ public class BlockStartController : MonoBehaviour {
 		else{
 
 			BlockController nextBlock = GameController.levelBlocks[idx, 0];
+			bool isGameOver = true;
 			if (nextBlock != null){
 				if (nextBlock.CanTumble()){
-
+					isGameOver = false;
 					nextBlock.Tumble1();
 					Tumble4();
 				}
+			}
+			if (isGameOver){
+				GameController.isGameOver = true;
+				Debug.Log("GAME OVER");
 			}
 
 		}
