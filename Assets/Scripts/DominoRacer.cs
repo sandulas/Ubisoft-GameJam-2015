@@ -27,21 +27,57 @@ public class DominoRacer : MonoBehaviour {
 
 	public GameObject dominoPrefab;
 
+	public Camera gameCamera;
+	public GameObject[] lanesTap;
+
 	List<List<DominoBlock>> level;
 
 	int rows = 20;
 	int lanes = 5;
 
+	float laneDistance = 5;
+	float rowsDistance = 4;
+
+	public static List<DominoBlock> currentTumbeling;
+
 	void Start(){
+		currentTumbeling = new List<DominoBlock>();
+
 		InitLevel();
 
 		for (int laneIdx = 0; laneIdx < lanes; laneIdx++){
+			currentTumbeling.Add(null);
 			DominoBlock block = level[0][laneIdx];
 			block.Tumble();
 		}
 
 		StartCoroutine(Game());
 
+	}
+
+	void Update(){
+		if (Input.GetMouseButtonUp(0)){
+			Ray ray = gameCamera.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hitInfo;
+			Physics.Raycast(ray, out hitInfo);
+			if (hitInfo.collider != null){
+
+				for(int idx = 0; idx < lanesTap.Length; idx++){
+					GameObject lane = lanesTap[idx];
+					if (lane == hitInfo.collider.gameObject){
+						Debug.Log("tapped" + idx);
+						if (currentTumbeling[idx] != null){
+							if (currentTumbeling[idx].forward.canTumble){
+								currentTumbeling[idx].forward.willKnock1 = currentTumbeling[idx].forward.forwardLeft;
+								currentTumbeling[idx].forward.willKnock2 = currentTumbeling[idx].forward.forwardRight;
+								currentTumbeling[idx].forward.child.renderer.material.SetColor("_Color", Color.green);
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
 	}
 
 	void InitLevel(){
@@ -52,11 +88,12 @@ public class DominoRacer : MonoBehaviour {
 			for (int laneIdx = 0; laneIdx < lanes; laneIdx++){
 				GameObject blockGO = Instantiate(dominoPrefab) as GameObject;
 				DominoBlock block = blockGO.GetComponent<DominoBlock>();
+				block.laneIdx = laneIdx;
 				blockGO.transform.parent = transform;
 				
 				levelLane.Add(block);
 				
-				block.gameObject.transform.localPosition = new Vector3((laneIdx - lanes / 2) * 3, 0, rowIdx * 4);
+				block.gameObject.transform.localPosition = new Vector3((laneIdx - lanes / 2) * laneDistance, 0, rowIdx * rowsDistance);
 			}
 			level.Add(levelLane);
 		}
@@ -65,8 +102,21 @@ public class DominoRacer : MonoBehaviour {
 			for (int laneIdx = 0; laneIdx < lanes; laneIdx++){
 				DominoBlock block = level[rowIdx][laneIdx];
 				if (rowIdx < rows - 1){
-					DominoBlock nextBlock = level[rowIdx + 1][laneIdx];
-					block.willKnock1 = nextBlock;
+
+
+					DominoBlock forward = level[rowIdx + 1][laneIdx];
+					DominoBlock forwardLeft = null;
+					DominoBlock forwardRight = null;
+					if (laneIdx > 0)
+						forwardLeft = level[rowIdx + 1][laneIdx - 1];
+					if (laneIdx < lanes - 1)
+						forwardRight = level[rowIdx + 1][laneIdx + 1];
+
+					block.forward = forward;
+					block.forwardLeft = forwardLeft;
+					block.forwardRight = forwardRight;
+
+					block.willKnock1 = forward;
 				}
 			}
 		}
@@ -78,10 +128,10 @@ public class DominoRacer : MonoBehaviour {
 		int counter = 0;
 		while(true){
 
-			int rand = -1;
-			if (counter % 5 == 0)
-				rand = Random.Range(0, lanes);
-			counter ++;
+			int rand = Random.Range(-3, lanes + 3);
+			if (rand < 0 || rand >= lanes)
+				rand = -1;
+
 
 			float lastRowZ = level[rows-1][0].transform.localPosition.z;
 
@@ -89,21 +139,28 @@ public class DominoRacer : MonoBehaviour {
 			for (int laneIdx = 0; laneIdx < lanes; laneIdx++){
 				GameObject blockGO = Instantiate(dominoPrefab) as GameObject;
 				DominoBlock block = blockGO.GetComponent<DominoBlock>();
+				block.laneIdx = laneIdx;
 				blockGO.transform.parent = transform;
 
 				level[rows-1][laneIdx].willKnock1 = block;
 
+				level[rows-1][laneIdx].forward = block;
+				if (laneIdx > 0)
+					level[rows-1][laneIdx - 1].forwardRight = block;
+				if (laneIdx < lanes - 1)
+					level[rows-1][laneIdx + 1].forwardLeft = block;
+
+
 				if (rand != -1){
 					if (laneIdx == rand){
-						level[rows-1][laneIdx].willKnock1 = null;
-						block.isPresent = false;
-						blockGO.SetActive(false);
+						block.canTumble = false;
+						block.child.renderer.material.SetColor("_Color", Color.black);
 					}
 				}
 
 				levelLane.Add(block);
 				
-				block.gameObject.transform.localPosition = new Vector3((laneIdx - lanes / 2) * 3, 0, lastRowZ + 4);
+				block.gameObject.transform.localPosition = new Vector3((laneIdx - lanes / 2) * laneDistance, 0, lastRowZ + 4);
 			}
 
 			level.Add(levelLane);

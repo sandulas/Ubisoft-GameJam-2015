@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/DominoRacer.cs">
     <Files>
-      <File FileName="Assets/Scripts/DominoBlock.cs" Line="9" Column="2" />
-      <File FileName="Assets/Scripts/DominoRacer.cs" Line="45" Column="2" />
+      <File FileName="Assets/Scripts/DominoBlock.cs" Line="10" Column="31" />
+      <File FileName="Assets/Scripts/DominoRacer.cs" Line="77" Column="36" />
+      <File FileName="Assets/Scripts/GameCamera.cs" Line="15" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
