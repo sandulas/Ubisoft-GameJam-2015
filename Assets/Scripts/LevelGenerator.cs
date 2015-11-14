@@ -6,7 +6,7 @@ public static class LevelGenerator
 {
 	static int[,] level;
 
-	public static int[,] Generate2(int rowCount)
+	public static int[,] GenerateRandom(int rowCount)
 	{
 		level = new int[4, rowCount];
 
@@ -16,6 +16,39 @@ public static class LevelGenerator
 			{
 				level [i, j] = Random.Range (0, 5);
 			}
+		}
+		return level;
+	}
+
+	public static int[,] GenerateDebug(int rowCount)
+	{
+		level = new int[4, rowCount];
+
+		//initialize with random cubes
+		for (int position = 0; position < 4; position++)
+		{
+			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+			{
+				level [position, rowIndex] = Random.Range (1, 5);
+			}
+		}
+
+		level [0, 0] = 0; level [1, 0] = 0;
+		level [2, 1] = 0; //level [2, 1] = 0;
+
+		Debug.Log (isObstaclePostionValid(1, 3));
+		//Debug.Log (isPathAvailable (0, 2));
+
+		return level;
+
+		//add obstacle (some cubes are replaced with obstacles)
+		for (int rowIndex = 1; rowIndex < rowCount; rowIndex++)
+		{
+			int obstacleCount = Random.Range (0, 4);
+			obstacleCount = 2;
+
+			placeObstacles (rowIndex, obstacleCount);
+
 		}
 		return level;
 	}
@@ -84,21 +117,43 @@ public static class LevelGenerator
 
 	static bool isObstaclePostionValid(int rowIndex, int obstaclePosition)
 	{
-		return true;
-		int originalStateAtObstaclePosition = level [rowIndex, obstaclePosition];
+		int originalStateAtObstaclePosition = level [obstaclePosition,rowIndex];
+		level [obstaclePosition, rowIndex] = 0;
 
 		for (int position = 0; position < 4; position++)
-			if (level [rowIndex - 1, position] != 0)
+			if (level [position, rowIndex - 1] != 0)
 			if (!isPathAvailable (rowIndex - 1, position))
+			{
+				level [obstaclePosition, rowIndex] = originalStateAtObstaclePosition;
 				return false;
+			}
 
-		level [rowIndex, obstaclePosition] = originalStateAtObstaclePosition;
 		return true;
 	}
 
 	static bool isPathAvailable(int rowIndex, int position)
 	{
-		return true;
+		for (int i = 0; i < 3; i++)
+		{
+			if (level [(position + i) % 4, rowIndex] == 0)
+				break;			
+
+			if (level [(position + i) % 4, rowIndex + 1] != 0)
+				return true;;
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			int positionToCheck = position - i;
+			if (positionToCheck < 0)
+				positionToCheck = 4 + positionToCheck;
+
+			if (level [positionToCheck, rowIndex] == 0)
+				break;
+			if (level [positionToCheck, rowIndex + 1] != 0)
+				return true;;
+		}
+
+		return false;
 	}
 
 
