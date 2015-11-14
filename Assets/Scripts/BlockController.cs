@@ -6,6 +6,8 @@ public class BlockController : MonoBehaviour {
 
 	public bool isDummy = false;
 
+	public GameObject theCenter;
+
 	public GameObject tumblePivot1;
 	public GameObject tumblePivot2;
 	public Renderer top;
@@ -65,7 +67,7 @@ public class BlockController : MonoBehaviour {
 
 	void Update(){
 		if (isTumbling){
-			TheCamera.targetPosition = tumblePivot2.transform.position;
+			TheCamera.targetPosition = theCenter.transform.position;
 		}
 	}
 
@@ -74,14 +76,23 @@ public class BlockController : MonoBehaviour {
 		isTumbling = true;
 
 		if (column == GameController.columns - 1){
-			GameController.dummyBlock.row = row;
-			GameController.dummyBlock.column = -1;
-			GameController.dummyBlock.transform.eulerAngles = transform.eulerAngles;
-			GameController.dummyBlock.SetToMatrixPosition();
-			GameController.dummyBlock.Tumble1();
+			GameController.dummyBlockLeft.row = row;
+			GameController.dummyBlockLeft.column = -1;
+			GameController.dummyBlockLeft.transform.eulerAngles = transform.eulerAngles;
+			GameController.dummyBlockLeft.SetToMatrixPosition();
+			GameController.dummyBlockLeft.Tumble1();
+		}
+		else
+		if (column == 0){
+			GameController.dummyBlockRight.row = row;
+			GameController.dummyBlockRight.column = GameController.columns;
+			GameController.dummyBlockRight.transform.eulerAngles = transform.eulerAngles;
+			GameController.dummyBlockRight.SetToMatrixPosition();
+			GameController.dummyBlockRight.Tumble1();
 		}
 
 		if (!isDummy){
+			GameController.outsideBlocks.Add(this);
 			GameController.levelBlocks[column, row] = null;
 		}
 
@@ -105,8 +116,12 @@ public class BlockController : MonoBehaviour {
 		if (nextBlock != null){
 			if (nextBlock.CanTumble()){
 				if (column == GameController.columns - 1){
-					GameController.dummyBlock.Tumble2();
+					GameController.dummyBlockLeft.Tumble2();
 				}
+				else if (column == 0){
+					GameController.dummyBlockRight.Tumble2();
+				}
+
 				Tumble2();
 				nextBlock.Tumble1();
 			}
@@ -119,7 +134,10 @@ public class BlockController : MonoBehaviour {
 			return;
 
 		if (column == GameController.columns - 1){
-			GameController.dummyBlock.tumblePivot1.SetActive(false);
+			GameController.dummyBlockLeft.tumblePivot1.SetActive(false);
+		}
+		else if (column == 0){
+			GameController.dummyBlockRight.tumblePivot1.SetActive(false);
 		}
 
 		collider.enabled = true;
@@ -131,6 +149,7 @@ public class BlockController : MonoBehaviour {
 		if (nextRow != -1){
 			column = nextColumn;
 			row = nextRow;
+			GameController.outsideBlocks.Remove(this);
 			GameController.levelBlocks[column, row] = this;
 		}
 

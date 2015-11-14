@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour {
 	}
 	
 	void Update(){
-		if (Input.GetMouseButtonUp(0))
+		if (Input.GetMouseButtonDown(0))
 		{
 			BlockController block = GetBlockForScreenPos(Input.mousePosition);
 			if (block != null)
@@ -70,22 +70,35 @@ public class GameController : MonoBehaviour {
 	}
 
 	public static BlockController[,] levelBlocks;
-	public static BlockController dummyBlock;
+	public static BlockController dummyBlockLeft;
+	public static BlockController dummyBlockRight;
 	public static List<BlockController> outsideBlocks;
 
 	void InitDummy(){
 		GameObject blockGODummy = Instantiate(prefabBlock) as GameObject;
-		dummyBlock = blockGODummy.GetComponent<BlockController>();
+		dummyBlockLeft = blockGODummy.GetComponent<BlockController>();
 		
-		dummyBlock.isDummy = true;
-		dummyBlock.row = -1;
-		dummyBlock.column = -1;
+		dummyBlockLeft.isDummy = true;
+		dummyBlockLeft.row = -1;
+		dummyBlockLeft.column = -1;
 		
-		dummyBlock.Init();
+		dummyBlockLeft.Init();
 		
-		blockGODummy.name = "DUMMY";
+		blockGODummy.name = "DUMMY LEFT";
 
-		TheCamera.targetPosition = blockGODummy.transform.position;
+
+		blockGODummy = Instantiate(prefabBlock) as GameObject;
+		dummyBlockRight = blockGODummy.GetComponent<BlockController>();
+		
+		dummyBlockRight.isDummy = true;
+		dummyBlockRight.row = -1;
+		dummyBlockRight.column = columns;
+		
+		dummyBlockRight.Init();
+		
+		dummyBlockRight.name = "DUMMY RIGHT";
+		
+
 	}
 
 	void InitLevel()

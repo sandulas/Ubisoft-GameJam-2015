@@ -6,6 +6,8 @@ public class BlockStartController : MonoBehaviour {
 
 	public GameController gameController;
 
+	public GameObject theCenter;
+
 	public GameObject tumblePivot1;
 	public GameObject tumblePivot2;
 	public GameObject tumblePivot3;
@@ -16,13 +18,13 @@ public class BlockStartController : MonoBehaviour {
 	bool isTumbling = false;
 	void Update(){
 		if (isTumbling){
-			TheCamera.targetPosition = tumblePivot4.transform.position;
+			TheCamera.targetPosition = theCenter.transform.position;
 		}
 	}
 
 	int idx = 0;
 	public void Init(){
-
+		tumbles = 0;
 		gameObject.SetActive(true);
 		idx = Random.Range(0, GameController.columns);
 
@@ -60,10 +62,16 @@ public class BlockStartController : MonoBehaviour {
 		if (tumbles == 0)
 			Tumble4();
 		else{
-			BlockController block = GameController.levelBlocks[idx, 0];
-			block.Tumble1();
 
-			Tumble4();
+			BlockController nextBlock = GameController.levelBlocks[idx, 0];
+			if (nextBlock != null){
+				if (nextBlock.CanTumble()){
+
+					nextBlock.Tumble1();
+					Tumble4();
+				}
+			}
+
 		}
 	}
 
