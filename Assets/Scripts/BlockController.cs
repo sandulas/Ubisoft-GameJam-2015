@@ -25,6 +25,14 @@ public class BlockController : MonoBehaviour {
 	float tumbleTime = 1;
 
 	public void Init(){
+		if (isDummy){
+			type = 1;
+			tumblePivot1.SetActive(false);
+		}
+
+//		if (type == 0)
+//			type = 1;
+
 		if (type == 0)
 		{
 			canTumble = false;
@@ -58,25 +66,40 @@ public class BlockController : MonoBehaviour {
 
 		isTumbling = true;
 
+		if (column == GameController.columns - 1){
+			GameController.dummyBlock.row = row;
+			GameController.dummyBlock.column = -1;
+			GameController.dummyBlock.transform.eulerAngles = transform.eulerAngles;
+			GameController.dummyBlock.SetToMatrixPosition();
+			GameController.dummyBlock.Tumble1();
+		}
+
 		if (!isDummy)
 			GameController.levelBlocks[column, row] = null;
 
 		Debug.Log("tumble " + " row" + row + "column" + column);
 		collider.enabled = false;
+		tumblePivot1.SetActive(true);
 		tumblePivot1.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble1Complete);
+	}
+
+	public void Tumble2(){
+		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(tumbleTime / 2);
 	}
 
 	void OnTumble1Complete(){
 //		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, 0.3f).OnComplete(OnTumble2Complete).SetDelay(0.3f);
 		if (isDummy){
-			tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(0.3f);
 			return;
 		}
 
 		BlockController nextBlock = GetNextBlock();
 		if (nextBlock != null){
 			if (nextBlock.CanTumble()){
-				tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(0.3f);
+				if (column == GameController.columns - 1){
+					GameController.dummyBlock.Tumble2();
+				}
+				Tumble2();
 				nextBlock.Tumble1();
 			}
 		}
@@ -86,6 +109,10 @@ public class BlockController : MonoBehaviour {
 		isTumbling = false;
 		if (isDummy)
 			return;
+
+		if (column == GameController.columns - 1){
+			GameController.dummyBlock.tumblePivot1.SetActive(false);
+		}
 
 		collider.enabled = true;
 
@@ -109,7 +136,7 @@ public class BlockController : MonoBehaviour {
 			return;
 		if (isTumbling)
 			return;
-		if (!CanTumble())
+		if (!canTumble)
 			return;
 
 		Debug.Log("rotate " + " row" + row + "column" + column);

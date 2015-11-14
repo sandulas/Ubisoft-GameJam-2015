@@ -62,10 +62,14 @@ public class GameController : MonoBehaviour {
 		GameObject blockGODummy = Instantiate(prefabBlock) as GameObject;
 		dummyBlock = blockGODummy.GetComponent<BlockController>();
 
+		dummyBlock.isDummy = true;
 		dummyBlock.row = -1;
 		dummyBlock.column = -1;
 
 		dummyBlock.Init();
+		dummyBlock.SetToMatrixPosition();
+
+		blockGODummy.name = "DUMMY";
 	
 
 		int[,] level = LevelGenerator.Generate (rows);
