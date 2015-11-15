@@ -116,15 +116,15 @@ public static class LevelGenerator
 			maxObstaclesPerRow = 3;
 			break;
 		case 7:
-			minObstaclesPerRow = 1;
-			maxObstaclesPerRow = 3;
-			break;
-		case 8:
 			minObstaclesPerRow = 2;
 			maxObstaclesPerRow = 3;
 			break;
+		case 8:
+			minObstaclesPerRow = 3;
+			maxObstaclesPerRow = 3;
+			break;
 		default:
-			minObstaclesPerRow = 1;
+			minObstaclesPerRow = 3;
 			maxObstaclesPerRow = 3;
 			break;
 		}
