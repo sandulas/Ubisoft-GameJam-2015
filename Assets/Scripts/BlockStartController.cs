@@ -126,8 +126,8 @@ public class BlockStartController : MonoBehaviour {
 
 				Debug.Log("GAME OVER");
 
-				TheUI.GetInstance().ShowFailed(2f);
-				TheUI.GetInstance().FadeDark(1.5f);
+				TheUI.GetInstance().ShowFailed(.3f);
+				TheUI.GetInstance().FadeDark(1f);
 			}
 
 		}
