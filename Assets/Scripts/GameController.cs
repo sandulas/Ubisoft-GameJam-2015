@@ -51,6 +51,8 @@ public class GameController : MonoBehaviour {
 			InitLevel();
 			startBlock.InitForStart();
 			theCamera.transform.position = new Vector3(0, 12.5f, -10);
+
+			TheUI.GetInstance().FadeDark(0);
 		}
 	}
 	

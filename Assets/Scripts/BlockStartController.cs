@@ -122,6 +122,8 @@ public class BlockStartController : MonoBehaviour {
 			if (isGameOver){
 				GameController.isGameOver = true;
 				Debug.Log("GAME OVER");
+
+				TheUI.GetInstance().FadeDark(1);
 			}
 
 		}

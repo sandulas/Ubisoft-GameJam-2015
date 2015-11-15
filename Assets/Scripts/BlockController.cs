@@ -148,6 +148,8 @@ public class BlockController : MonoBehaviour {
 					BlockStartController.GetInstance().InitForFinish(nextColumn);
 					nextBlock.gameObject.SetActive(false);
 
+//					TheUI.GetInstance().FadeInDarkDelayed(2);
+
 					Debug.Log("WIIIINNN");
 				}
 			}
@@ -156,6 +158,7 @@ public class BlockController : MonoBehaviour {
 			GameController.isGameOver = true;
 			Debug.Log("GAME OVER");
 
+			TheUI.GetInstance().FadeInDarkDelayed(2);
 
 		}
 	}
