@@ -158,7 +158,7 @@ public class BlockController : MonoBehaviour {
 						TheUI.GetInstance().ShowSucces(2);
 						isWin = true;
 
-						TheSound.GetInstance().PlaySoundWin();
+
 						Debug.Log("WIIIINNN");
 					}
 				}

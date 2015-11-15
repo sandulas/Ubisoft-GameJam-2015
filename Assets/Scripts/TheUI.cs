@@ -49,7 +49,9 @@ public class TheUI : MonoBehaviour {
 	}
 
 	IEnumerator ShowSuccesCO(float delay){
-		yield return new WaitForSeconds(delay);
+		yield return new WaitForSeconds(.5f);
+		TheSound.GetInstance().PlaySoundWin();
+		yield return new WaitForSeconds(delay - .5f);
 		canvasSucces.gameObject.SetActive(true);
 		canvasSucces.alpha = 0;
 		canvasSucces.DOFade(1, .4f).SetDelay(0.3f).SetEase(Ease.Linear);
