@@ -171,10 +171,10 @@ public class BlockController : MonoBehaviour {
 			return;
 
 		if (column == GameController.columns - 1){
-			GameController.dummyBlockLeft.tumblePivot1.SetActive(false);
+			GameController.dummyBlockLeft.gameObject.SetActive(false);
 		}
 		else if (column == 0){
-			GameController.dummyBlockRight.tumblePivot1.SetActive(false);
+			GameController.dummyBlockRight.gameObject.SetActive(false);
 		}
 
 		collider.enabled = true;

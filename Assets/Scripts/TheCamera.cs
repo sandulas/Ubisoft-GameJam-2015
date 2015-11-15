@@ -27,7 +27,7 @@ public class TheCamera : MonoBehaviour {
 	void Update () {
 //		new Vector3(0, 12.5f, 5)
 		float camZ = transform.position.z;
-		camZ = Mathf.Lerp(camZ, targetPosition.z + 5, 1f * Time.deltaTime);
+		camZ = Mathf.Lerp(camZ, targetPosition.z + 5, .7f * Time.deltaTime);
 		transform.position = new Vector3(0, 12.5f, camZ);
 	}
 }

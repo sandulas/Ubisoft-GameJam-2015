@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	public BlockStartController startBlock;
 
 
-	public static int rows = 4;
+	public static int rows = 40;
 	public static int columns = 4;
 
 
