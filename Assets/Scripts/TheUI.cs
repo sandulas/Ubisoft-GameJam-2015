@@ -106,7 +106,7 @@ public class TheUI : MonoBehaviour {
 
 		canvasSucces.DOFade(0, .3f).OnComplete(()=>{canvasSucces.gameObject.SetActive(false);});
 
-		if (gameController.currentLevelNumber != -1 && gameController.currentLevelNumber != 8)
+		if (gameController.currentLevelNumber != -1 && gameController.currentLevelNumber < 99)
 			gameController.currentLevelNumber++;
 
 		gameController.StartGame();
