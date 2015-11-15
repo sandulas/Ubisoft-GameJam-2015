@@ -39,21 +39,32 @@ public class GameController : MonoBehaviour {
 
 	}
 
-	void OnGUI(){
+//	void OnGUI(){
+//
+//		if (GUI.Button(new Rect(0, 0, Screen.width, 50), "NEW GAME")){
+//
+//		}
+//	}
 
-		if (GUI.Button(new Rect(0, 0, Screen.width, 50), "NEW GAME")){
-			isGameOver = false;
+	public void StartGame(){
+		StartCoroutine(StartGameCO());
+	}
 
-			dummyBlockLeft.gameObject.SetActive(false);
-			dummyBlockRight.gameObject.SetActive(false);
-
-			DestroyLevel();
-			InitLevel();
-			startBlock.InitForStart();
-			theCamera.transform.position = new Vector3(0, 12.5f, -10);
-
-			TheUI.GetInstance().FadeDark(0);
-		}
+	IEnumerator StartGameCO(){
+		yield return new WaitForSeconds(0.5f);
+		isGameOver = false;
+		
+		dummyBlockLeft.gameObject.SetActive(false);
+		dummyBlockRight.gameObject.SetActive(false);
+		
+		DestroyLevel();
+		InitLevel();
+		startBlock.InitForStart();
+		theCamera.transform.position = new Vector3(0, 12.5f, -10);
+		yield return null;
+		yield return null;
+		yield return null;
+		TheUI.GetInstance().FadeDark(0);
 	}
 	
 	void Update(){
