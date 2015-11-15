@@ -101,6 +101,7 @@ public class BlockController : MonoBehaviour {
 		}
 
 		if (!isDummy){
+
 			GameController.outsideBlocks.Add(this);
 			GameController.levelBlocks[column, row] = null;
 		}
@@ -109,11 +110,11 @@ public class BlockController : MonoBehaviour {
 		collider.enabled = false;
 		if (isDummy)
 			gameObject.SetActive(true);
-		tumblePivot1.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble1Complete);
+		tumblePivot1.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble1Complete).SetEase(Ease.InQuad);
 	}
 
 	public void Tumble2(){
-		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetDelay(tumbleTime / 3);
+		tumblePivot2.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble2Complete).SetEase(Ease.OutQuad).SetDelay(tumbleTime / 2);
 	}
 
 	void OnTumble1Complete(){
@@ -136,6 +137,12 @@ public class BlockController : MonoBehaviour {
 				isGameOver = false;
 				Tumble2();
 				nextBlock.Tumble1();
+
+				if (nextBlock.row > row)
+					TheSound.GetInstance().PlaySoundBlockUp();
+				else
+					TheSound.GetInstance().PlaySoundBlock();
+
 			}
 			else{
 				if (nextBlock.canTumble){
@@ -151,6 +158,7 @@ public class BlockController : MonoBehaviour {
 						TheUI.GetInstance().ShowSucces(2);
 						isWin = true;
 
+						TheSound.GetInstance().PlaySoundWin();
 						Debug.Log("WIIIINNN");
 					}
 				}
@@ -160,6 +168,7 @@ public class BlockController : MonoBehaviour {
 			GameController.isGameOver = true;
 			Debug.Log("GAME OVER");
 			if (!isWin){
+				TheSound.GetInstance().PlaySoundFail();
 				TheUI.GetInstance().ShowFailed(2);
 			}
 			TheUI.GetInstance().FadeInDarkDelayed(1.5f);

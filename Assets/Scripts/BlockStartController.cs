@@ -121,6 +121,9 @@ public class BlockStartController : MonoBehaviour {
 			}
 			if (isGameOver){
 				GameController.isGameOver = true;
+
+				TheSound.GetInstance().PlaySoundFail();
+
 				Debug.Log("GAME OVER");
 
 				TheUI.GetInstance().ShowFailed(2f);
