@@ -29,6 +29,8 @@ public class TheUI : MonoBehaviour {
 	public CanvasGroup canvasFailed;
 	public CanvasGroup canvasSucces;
 
+	public Text levelNumberLabel;
+
 
 
 	public void FadeInDarkDelayed(float delay){
@@ -110,6 +112,21 @@ public class TheUI : MonoBehaviour {
 		gameController.StartGame();
 	}
 
+	public void ShowLevelNumber(){
+		StartCoroutine(ShowLevelNumberCO());
+	}
 
+	IEnumerator ShowLevelNumberCO(){
+		yield return new WaitForSeconds(0.1f);
+		levelNumberLabel.text = gameController.currentLevelNumber.ToString();
+
+		levelNumberLabel.gameObject.SetActive(true);
+		levelNumberLabel.rectTransform.localScale = Vector3.zero;
+		levelNumberLabel.color = Utils.SetAlpha(levelNumberLabel.color, 1);
+
+		levelNumberLabel.rectTransform.DOScale(Vector3.one * 1.5f, 1f).OnComplete(()=>{levelNumberLabel.gameObject.SetActive(false);});
+		levelNumberLabel.DOColor(Utils.SetAlpha(levelNumberLabel.color, 0), 0.3f).SetDelay(0.6f);
+
+	}
 
 }

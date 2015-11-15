@@ -70,6 +70,8 @@ public class GameController : MonoBehaviour {
 		yield return null;
 		yield return null;
 		TheUI.GetInstance().FadeDark(0);
+
+		TheUI.GetInstance().ShowLevelNumber();
 	}
 	
 	void Update(){
