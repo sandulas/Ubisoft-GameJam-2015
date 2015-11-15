@@ -53,7 +53,7 @@ public static class LevelGenerator
 		return level;
 	}
 
-	public static int[,] Generate(int rowCount, int maxObstaclesPerRow)
+	public static int[,] Generate(int rowCount, int minObstaclesPerRow , int maxObstaclesPerRow)
 	{
 		level = new int[4, rowCount];
 
@@ -62,14 +62,17 @@ public static class LevelGenerator
 		{
 			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
 			{
-				level [position, rowIndex] = Random.Range (1, 5);
+				if (rowIndex % 2 == 0)
+					level [position, rowIndex] = Random.Range (1, 5);
+				else
+					level [position, rowIndex] = Random.Range (2, 5);
 			}
 		}
 
 		//add obstacle (some cubes are replaced with obstacles)
 		for (int rowIndex = 1; rowIndex < rowCount; rowIndex++)
 		{
-			int obstacleCount = Random.Range (0, maxObstaclesPerRow + 1);
+			int obstacleCount = Random.Range (minObstaclesPerRow, maxObstaclesPerRow + 1);
 			//obstacleCount = 2;
 
 			placeObstacles (rowIndex, obstacleCount);
@@ -79,23 +82,54 @@ public static class LevelGenerator
 	}
 	public static int[,] Generate(int rowCount)
 	{
-		return Generate (rowCount, 1);
+		return Generate (rowCount, 0, 1);
 	}
-
 	public static  int[,] GenerateLevel(int levelNumber)
 	{
 		int rowCount = 6 + (levelNumber - 1) * 2;
-		int maxObstaclesPerRow;
-		if (levelNumber <= 2)
-			maxObstaclesPerRow = 1;
-		else if (levelNumber <= 6)
-			maxObstaclesPerRow = 2;
-		else if (levelNumber <= 8)
-			maxObstaclesPerRow = 3;
-		else
-			maxObstaclesPerRow = 3;
+		int minObstaclesPerRow, maxObstaclesPerRow;
 
-		return Generate (rowCount, maxObstaclesPerRow);
+		switch (levelNumber)
+		{
+		case 1:
+			minObstaclesPerRow = 0;
+			maxObstaclesPerRow = 1;
+			break;
+		case 2:
+			minObstaclesPerRow = 0;
+			maxObstaclesPerRow = 2;
+			break;
+		case 3:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 2;
+			break;
+		case 4:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 2;
+			break;
+		case 5:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 3;
+			break;
+		case 6:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 3;
+			break;
+		case 7:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 3;
+			break;
+		case 8:
+			minObstaclesPerRow = 2;
+			maxObstaclesPerRow = 3;
+			break;
+		default:
+			minObstaclesPerRow = 1;
+			maxObstaclesPerRow = 3;
+			break;
+		}
+
+		return Generate (rowCount, minObstaclesPerRow, maxObstaclesPerRow);
 	}
 
 	static void placeObstacles(int rowIndex, int obstacleCount)
