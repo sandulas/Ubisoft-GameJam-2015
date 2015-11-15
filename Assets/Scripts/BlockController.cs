@@ -139,18 +139,20 @@ public class BlockController : MonoBehaviour {
 				nextBlock.Tumble1();
 			}
 			else{
-				int nextColumn;
-				int nextRow;
-				nextBlock.GetNextIdx(out nextColumn, out nextRow);
-				if (nextRow == -99){
-					Tumble2();
+				if (nextBlock.canTumble){
+					int nextColumn;
+					int nextRow;
+					nextBlock.GetNextIdx(out nextColumn, out nextRow);
+					if (nextRow == -99){
+						Tumble2();
 
-					BlockStartController.GetInstance().InitForFinish(nextColumn);
-					nextBlock.gameObject.SetActive(false);
+						BlockStartController.GetInstance().InitForFinish(nextColumn);
+						nextBlock.gameObject.SetActive(false);
 
-//					TheUI.GetInstance().FadeInDarkDelayed(2);
+	//					TheUI.GetInstance().FadeInDarkDelayed(2);
 
-					Debug.Log("WIIIINNN");
+						Debug.Log("WIIIINNN");
+					}
 				}
 			}
 		}
