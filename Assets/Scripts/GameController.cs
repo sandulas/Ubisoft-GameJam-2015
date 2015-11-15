@@ -144,7 +144,7 @@ public class GameController : MonoBehaviour {
 
 		int[,] level = LevelGenerator.GenerateLevel (currentLevelNumber);
 
-		BlockController.tumbleTime = Mathf.Lerp(1f, 0.6f, (float)currentLevelNumber / 12f);
+		BlockController.tumbleTime = Mathf.Lerp(1f, 0.75f, (float)currentLevelNumber / 12f);
 		if (currentLevelNumber == -1)
 			BlockController.tumbleTime = 1;
 
