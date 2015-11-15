@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	public BlockStartController startBlock;
 
 
-	public static int rows = 130;
+	public static int rows = 4;
 	public static int columns = 4;
 
 
@@ -29,6 +29,9 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+		startBlock = BlockStartController.GetInstance();
+
 		theCamera = gameCamera;
 
 		InitDummy();
@@ -46,7 +49,7 @@ public class GameController : MonoBehaviour {
 
 			DestroyLevel();
 			InitLevel();
-			startBlock.Init();
+			startBlock.InitForStart();
 			theCamera.transform.position = new Vector3(0, 12.5f, -10);
 		}
 	}

@@ -11,6 +11,11 @@ public class BlockController : MonoBehaviour {
 	public GameObject tumblePivot1;
 	public GameObject tumblePivot2;
 	public Renderer top;
+	public Renderer side1;
+	public Renderer side2;
+	public Renderer side3;
+	public Renderer side4;
+
 
 	public int type = 0;
 
@@ -19,7 +24,9 @@ public class BlockController : MonoBehaviour {
 
 	public Material materialMovable;
 	public Material materialNonMovable;
-	public Material materialMoving;
+	public Material materialSideBlue;
+	public Material materialSideRed;
+
 
 	public bool canTumble = false;
 	public bool isTumbling = false;
@@ -39,6 +46,10 @@ public class BlockController : MonoBehaviour {
 		{
 			canTumble = false;
 			top.sharedMaterial = materialNonMovable;
+			side1.sharedMaterial = materialSideRed;
+			side2.sharedMaterial = materialSideRed;
+			side3.sharedMaterial = materialSideRed;
+			side4.sharedMaterial = materialSideRed;
 		}
 		else
 		{
@@ -127,10 +138,25 @@ public class BlockController : MonoBehaviour {
 				Tumble2();
 				nextBlock.Tumble1();
 			}
+			else{
+				int nextColumn;
+				int nextRow;
+				nextBlock.GetNextIdx(out nextColumn, out nextRow);
+				if (nextRow == -99){
+					Tumble2();
+
+					BlockStartController.GetInstance().InitForFinish(nextColumn);
+					nextBlock.gameObject.SetActive(false);
+
+					Debug.Log("WIIIINNN");
+				}
+			}
 		}
 		if (isGameOver){
 			GameController.isGameOver = true;
 			Debug.Log("GAME OVER");
+
+
 		}
 	}
 
@@ -152,7 +178,7 @@ public class BlockController : MonoBehaviour {
 		int nextRow;
 		GetNextIdx(out nextColumn, out nextRow);
 
-		if (nextRow != -1){
+		if (nextRow >= 0){
 			column = nextColumn;
 			row = nextRow;
 			GameController.outsideBlocks.Remove(this);
@@ -204,8 +230,12 @@ public class BlockController : MonoBehaviour {
 			nextColumn = GameController.columns - 1;
 		if (nextColumn == GameController.columns)
 			nextColumn = 0;
-		if (nextRow < 0 || nextRow >= GameController.rows)
+		if (nextRow < 0)
 			nextRow = -1;
+		else if (nextRow >= GameController.rows)
+		{
+			nextRow = -99; // a ajuns la sfarsit
+		}
 
 	}
 
@@ -214,7 +244,7 @@ public class BlockController : MonoBehaviour {
 		int nextColumn;
 		int nextRow;
 		GetNextIdx(out nextColumn, out nextRow);
-		if (nextRow == -1)
+		if (nextRow < 0)
 			return null;
 
 		return GameController.levelBlocks[nextColumn, nextRow];
