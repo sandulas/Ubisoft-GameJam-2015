@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	public BlockStartController startBlock;
 
 
-	public static int rows = 40;
+	public static int rows = 4;
 	public static int columns = 4;
 
 
@@ -46,7 +46,12 @@ public class GameController : MonoBehaviour {
 //		}
 //	}
 
-	public void StartGame(){
+
+	public int currentLevelNumber = -1;
+	public void StartGame(int levelNumber = -1){
+		if (levelNumber != -1)
+			currentLevelNumber = levelNumber;
+
 		StartCoroutine(StartGameCO());
 	}
 

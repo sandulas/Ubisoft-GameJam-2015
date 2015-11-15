@@ -124,6 +124,7 @@ public class BlockController : MonoBehaviour {
 
 		BlockController nextBlock = GetNextBlock();
 		bool isGameOver = true;
+		bool isWin = false;
 		if (nextBlock != null){
 			if (nextBlock.CanTumble()){
 				if (column == GameController.columns - 1){
@@ -147,7 +148,8 @@ public class BlockController : MonoBehaviour {
 						BlockStartController.GetInstance().InitForFinish(nextColumn);
 						nextBlock.gameObject.SetActive(false);
 
-	//					TheUI.GetInstance().FadeInDarkDelayed(2);
+						TheUI.GetInstance().ShowSucces(2);
+						isWin = true;
 
 						Debug.Log("WIIIINNN");
 					}
@@ -157,8 +159,10 @@ public class BlockController : MonoBehaviour {
 		if (isGameOver){
 			GameController.isGameOver = true;
 			Debug.Log("GAME OVER");
-
-			TheUI.GetInstance().FadeInDarkDelayed(2);
+			if (!isWin){
+				TheUI.GetInstance().ShowFailed(2);
+			}
+			TheUI.GetInstance().FadeInDarkDelayed(1.5f);
 
 		}
 	}

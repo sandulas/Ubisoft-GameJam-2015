@@ -26,6 +26,9 @@ public class TheUI : MonoBehaviour {
 
 	public CanvasGroup canvasHome;
 	public CanvasGroup canvasLevels;
+	public CanvasGroup canvasFailed;
+	public CanvasGroup canvasSucces;
+
 
 
 	public void FadeInDarkDelayed(float delay){
@@ -37,6 +40,28 @@ public class TheUI : MonoBehaviour {
 
 	public void FadeDark(float alpha){
 		darkBackground.CrossFadeAlpha(alpha, 1f, true);
+	}
+
+	public void ShowSucces(float delay = 0){
+		StartCoroutine(ShowSuccesCO(delay));
+	}
+
+	IEnumerator ShowSuccesCO(float delay){
+		yield return new WaitForSeconds(delay);
+		canvasSucces.gameObject.SetActive(true);
+		canvasSucces.alpha = 0;
+		canvasSucces.DOFade(1, .4f).SetDelay(0.3f).SetEase(Ease.Linear);
+	}
+
+	public void ShowFailed(float delay){
+		StartCoroutine(ShowFailedCO(delay));
+	}
+
+	IEnumerator ShowFailedCO(float delay){
+		yield return new WaitForSeconds(delay);
+		canvasFailed.gameObject.SetActive(true);
+		canvasFailed.alpha = 0;
+		canvasFailed.DOFade(1, .4f).SetDelay(0.3f).SetEase(Ease.Linear);
 	}
 
 	public void OnButtonPlay(){
@@ -51,8 +76,40 @@ public class TheUI : MonoBehaviour {
 		canvasLevels.DOFade(0, .3f).OnComplete(()=>{canvasLevels.gameObject.SetActive(false);});
 //		canvasLevels.gameObject.SetActive(false);
 
-		GameController.rows = 10;
-		gameController.StartGame();
+		gameController.StartGame(levelNumber);
 
 	}
+
+	public void OnButtonFailedMenu(){
+		canvasLevels.gameObject.SetActive(true);
+		canvasLevels.alpha = 0;
+		canvasLevels.DOFade(1, .4f).SetDelay(0.3f).SetEase(Ease.Linear);
+		canvasFailed.DOFade(0, .3f).OnComplete(()=>{canvasFailed.gameObject.SetActive(false);});
+	}
+
+	public void OnButtonFailedRetry(){
+		canvasFailed.DOFade(0, .3f).OnComplete(()=>{canvasFailed.gameObject.SetActive(false);});
+
+		gameController.StartGame();
+	}
+
+	public void OnButtonSuccesMenu(){
+		canvasLevels.gameObject.SetActive(true);
+		canvasLevels.alpha = 0;
+		canvasLevels.DOFade(1, .4f).SetDelay(0.3f).SetEase(Ease.Linear);
+		canvasSucces.DOFade(0, .3f).OnComplete(()=>{canvasSucces.gameObject.SetActive(false);});
+	}
+
+	public void OnButtonSuccesNext(){
+
+		canvasFailed.DOFade(0, .3f).OnComplete(()=>{canvasFailed.gameObject.SetActive(false);});
+
+		if (gameController.currentLevelNumber != -1 || gameController.currentLevelNumber != 8)
+			gameController.currentLevelNumber++;
+
+		gameController.StartGame();
+	}
+
+
+
 }

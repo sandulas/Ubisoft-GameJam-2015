@@ -123,6 +123,7 @@ public class BlockStartController : MonoBehaviour {
 				GameController.isGameOver = true;
 				Debug.Log("GAME OVER");
 
+				TheUI.GetInstance().ShowFailed(1.5f);
 				TheUI.GetInstance().FadeDark(1);
 			}
 
