@@ -143,6 +143,11 @@ public class GameController : MonoBehaviour {
 		outsideBlocks = new List<BlockController>();
 
 		int[,] level = LevelGenerator.GenerateLevel (currentLevelNumber);
+
+		BlockController.tumbleTime = Mathf.Lerp(1f, 0.6f, (float)currentLevelNumber / 12f);
+		if (currentLevelNumber == -1)
+			BlockController.tumbleTime = 1;
+
 		rows = level.GetLength(1);
 //		int[,] level = LevelGenerator.Generate (rows);
 		levelBlocks = new BlockController[columns, rows];
