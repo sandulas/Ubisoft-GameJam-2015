@@ -16,6 +16,8 @@ public class BlockController : MonoBehaviour {
 	public Renderer side3;
 	public Renderer side4;
 
+	public GameObject roundedCube;
+
 
 	public int type = 0;
 
@@ -26,6 +28,9 @@ public class BlockController : MonoBehaviour {
 	public Material materialNonMovable;
 	public Material materialSideBlue;
 	public Material materialSideRed;
+
+	public Material roundedCubeMovableMaterial;
+	public Material roundedCubeNonMovableMaterial;
 
 
 	public bool canTumble = false;
@@ -50,11 +55,15 @@ public class BlockController : MonoBehaviour {
 			side2.sharedMaterial = materialSideRed;
 			side3.sharedMaterial = materialSideRed;
 			side4.sharedMaterial = materialSideRed;
+
+			roundedCube.renderer.sharedMaterial = roundedCubeNonMovableMaterial;
 		}
 		else
 		{
 			canTumble = true;
 			top.sharedMaterial = materialMovable;
+
+			roundedCube.renderer.sharedMaterial = roundedCubeMovableMaterial;
 
 			transform.localEulerAngles = Vector3.up * (type - 1) * 90;
 		}
