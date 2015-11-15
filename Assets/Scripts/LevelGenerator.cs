@@ -86,31 +86,16 @@ public static class LevelGenerator
 	{
 		int rowCount = 6 + (levelNumber - 1) * 2;
 		int maxObstaclesPerRow;
+		if (levelNumber <= 2)
+			maxObstaclesPerRow = 1;
+		else if (levelNumber <= 6)
+			maxObstaclesPerRow = 2;
+		else if (levelNumber <= 8)
+			maxObstaclesPerRow = 3;
+		else
+			maxObstaclesPerRow = 3;
 
-		level = new int[4, rowCount];
-
-		//initialize with random cubes
-		for (int position = 0; position < 4; position++)
-		{
-			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
-			{
-				if (rowIndex % 2 == 0)
-					level [position, rowIndex] = Random.Range (1, 5);
-				else
-					level [position, rowIndex] = Random.Range (2, 5);
-			}
-		}
-
-		//add obstacle (some cubes are replaced with obstacles)
-		for (int rowIndex = 1; rowIndex < rowCount; rowIndex++)
-		{
-			int obstacleCount = Random.Range (0, 2);
-			//obstacleCount = 2;
-
-			placeObstacles (rowIndex, obstacleCount);
-
-		}
-		return level;
+		return Generate (rowCount, maxObstaclesPerRow);
 	}
 
 	static void placeObstacles(int rowIndex, int obstacleCount)
