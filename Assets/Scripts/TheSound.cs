@@ -31,9 +31,8 @@ public class TheSound : MonoBehaviour {
 
 		source = GetComponent<AudioSource>();
 		source.clip = soundMusic;
+		source.loop = true;
 		source.Play();
-
-
 
 	}
 
