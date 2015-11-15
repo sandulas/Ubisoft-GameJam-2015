@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
 	public BlockStartController startBlock;
 
 
-	public static int rows = 4;
+	public static int rows = 6;
 	public static int columns = 4;
 
 
@@ -140,7 +140,9 @@ public class GameController : MonoBehaviour {
 	{
 		outsideBlocks = new List<BlockController>();
 
-		int[,] level = LevelGenerator.Generate (rows);
+		int[,] level = LevelGenerator.GenerateLevel (currentLevelNumber);
+		rows = level.GetLength(1);
+//		int[,] level = LevelGenerator.Generate (rows);
 		levelBlocks = new BlockController[columns, rows];
 
 		for (int row = 0; row < rows; row++)

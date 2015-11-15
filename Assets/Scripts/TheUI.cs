@@ -102,9 +102,9 @@ public class TheUI : MonoBehaviour {
 
 	public void OnButtonSuccesNext(){
 
-		canvasFailed.DOFade(0, .3f).OnComplete(()=>{canvasFailed.gameObject.SetActive(false);});
+		canvasSucces.DOFade(0, .3f).OnComplete(()=>{canvasSucces.gameObject.SetActive(false);});
 
-		if (gameController.currentLevelNumber != -1 || gameController.currentLevelNumber != 8)
+		if (gameController.currentLevelNumber != -1 && gameController.currentLevelNumber != 8)
 			gameController.currentLevelNumber++;
 
 		gameController.StartGame();
