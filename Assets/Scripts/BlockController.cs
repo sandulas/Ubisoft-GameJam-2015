@@ -10,11 +10,6 @@ public class BlockController : MonoBehaviour {
 
 	public GameObject tumblePivot1;
 	public GameObject tumblePivot2;
-	public Renderer top;
-	public Renderer side1;
-	public Renderer side2;
-	public Renderer side3;
-	public Renderer side4;
 
 	public GameObject roundedCube;
 
@@ -50,18 +45,12 @@ public class BlockController : MonoBehaviour {
 		if (type == 0)
 		{
 			canTumble = false;
-			top.sharedMaterial = materialNonMovable;
-			side1.sharedMaterial = materialSideRed;
-			side2.sharedMaterial = materialSideRed;
-			side3.sharedMaterial = materialSideRed;
-			side4.sharedMaterial = materialSideRed;
 
 			roundedCube.renderer.sharedMaterial = roundedCubeNonMovableMaterial;
 		}
 		else
 		{
 			canTumble = true;
-			top.sharedMaterial = materialMovable;
 
 			roundedCube.renderer.sharedMaterial = roundedCubeMovableMaterial;
 
