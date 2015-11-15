@@ -5,7 +5,7 @@ public class Demo : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		int[,] level = LevelGenerator.Generate (6);
+		int[,] level = LevelGenerator.GenerateLevel (6);
 		string matrix = "";
 
 		for (int i = level.GetLength(1)-1; i >= 0; i--)

@@ -53,7 +53,7 @@ public static class LevelGenerator
 		return level;
 	}
 
-	public static int[,] Generate(int rowCount)
+	public static int[,] Generate(int rowCount, int maxObstaclesPerRow)
 	{
 		level = new int[4, rowCount];
 
@@ -63,6 +63,40 @@ public static class LevelGenerator
 			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
 			{
 				level [position, rowIndex] = Random.Range (1, 5);
+			}
+		}
+
+		//add obstacle (some cubes are replaced with obstacles)
+		for (int rowIndex = 1; rowIndex < rowCount; rowIndex++)
+		{
+			int obstacleCount = Random.Range (0, maxObstaclesPerRow + 1);
+			//obstacleCount = 2;
+
+			placeObstacles (rowIndex, obstacleCount);
+
+		}
+		return level;
+	}
+	public static int[,] Generate(int rowCount)
+	{
+		return Generate (rowCount, 1);
+	}
+
+	public static  int[,] GenerateLevel(int levelNumber)
+	{
+		int rowCount = 6 + levelNumber * 2;
+
+		level = new int[4, rowCount];
+
+		//initialize with random cubes
+		for (int position = 0; position < 4; position++)
+		{
+			for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
+			{
+				if (rowIndex % 2 == 0)
+					level [position, rowIndex] = Random.Range (1, 5);
+				else
+					level [position, rowIndex] = Random.Range (2, 5);
 			}
 		}
 
