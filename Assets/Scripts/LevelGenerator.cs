@@ -84,7 +84,8 @@ public static class LevelGenerator
 
 	public static  int[,] GenerateLevel(int levelNumber)
 	{
-		int rowCount = 6 + levelNumber * 2;
+		int rowCount = 6 + (levelNumber - 1) * 2;
+		int maxObstaclesPerRow;
 
 		level = new int[4, rowCount];
 
