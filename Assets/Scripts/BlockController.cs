@@ -46,13 +46,13 @@ public class BlockController : MonoBehaviour {
 		{
 			canTumble = false;
 
-			roundedCube.renderer.sharedMaterial = roundedCubeNonMovableMaterial;
+			roundedCube.GetComponent<Renderer>().sharedMaterial = roundedCubeNonMovableMaterial;
 		}
 		else
 		{
 			canTumble = true;
 
-			roundedCube.renderer.sharedMaterial = roundedCubeMovableMaterial;
+			roundedCube.GetComponent<Renderer>().sharedMaterial = roundedCubeMovableMaterial;
 
 			transform.localEulerAngles = Vector3.up * (type - 1) * 90;
 		}
@@ -107,7 +107,7 @@ public class BlockController : MonoBehaviour {
 		}
 
 		Debug.Log("tumble " + " row" + row + "column" + column);
-		collider.enabled = false;
+		GetComponent<Collider>().enabled = false;
 		if (isDummy)
 			gameObject.SetActive(true);
 		tumblePivot1.transform.DOLocalRotate(Vector3.right * 90, tumbleTime).OnComplete(OnTumble1Complete).SetEase(Ease.InQuad);
@@ -188,7 +188,7 @@ public class BlockController : MonoBehaviour {
 			GameController.dummyBlockRight.gameObject.SetActive(false);
 		}
 
-		collider.enabled = true;
+		GetComponent<Collider>().enabled = true;
 
 		int nextColumn;
 		int nextRow;

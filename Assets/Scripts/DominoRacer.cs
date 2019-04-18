@@ -70,7 +70,7 @@ public class DominoRacer : MonoBehaviour {
 							if (currentTumbeling[idx].forward.canTumble){
 								currentTumbeling[idx].forward.willKnock1 = currentTumbeling[idx].forward.forwardLeft;
 								currentTumbeling[idx].forward.willKnock2 = currentTumbeling[idx].forward.forwardRight;
-								currentTumbeling[idx].forward.child.renderer.material.SetColor("_Color", Color.green);
+								currentTumbeling[idx].forward.child.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
 							}
 						}
 						break;
@@ -154,7 +154,7 @@ public class DominoRacer : MonoBehaviour {
 				if (rand != -1){
 					if (laneIdx == rand){
 						block.canTumble = false;
-						block.child.renderer.material.SetColor("_Color", Color.black);
+						block.child.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
 					}
 				}
 

@@ -101,24 +101,24 @@ public class Utils : MonoBehaviour {
 #if UNITY_IPHONE
 		ArrayList slowDevices = new ArrayList();
 		
-		slowDevices.Add(iPhoneGeneration.iPhoneUnknown);
-		slowDevices.Add(iPhoneGeneration.iPhone);
-		slowDevices.Add(iPhoneGeneration.iPhone3G);
-		slowDevices.Add(iPhoneGeneration.iPhone3GS);
-		slowDevices.Add(iPhoneGeneration.iPhone4);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPhoneUnknown);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPhone);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPhone3G);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPhone3GS);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPhone4);
 		
-		slowDevices.Add(iPhoneGeneration.iPadUnknown);
-		slowDevices.Add(iPhoneGeneration.iPad1Gen);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPadUnknown);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPad1Gen);
 		
-		slowDevices.Add(iPhoneGeneration.iPodTouchUnknown);
-		slowDevices.Add(iPhoneGeneration.iPodTouch1Gen);
-		slowDevices.Add(iPhoneGeneration.iPodTouch2Gen);
-		slowDevices.Add(iPhoneGeneration.iPodTouch3Gen);
-		slowDevices.Add(iPhoneGeneration.iPodTouch4Gen);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPodTouchUnknown);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPodTouch1Gen);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPodTouch2Gen);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPodTouch3Gen);
+		slowDevices.Add(UnityEngine.iOS.DeviceGeneration.iPodTouch4Gen);
 		
 //		Debug.Log(iPhone.generation);
 		for (int i = 0; i < slowDevices.Count; i++){
-			if (iPhone.generation == (iPhoneGeneration)slowDevices[i]){
+			if (UnityEngine.iOS.Device.generation == (UnityEngine.iOS.DeviceGeneration)slowDevices[i]){
 //				Debug.Log(iPhone.generation + " " + (iPhoneGeneration)slowDevices[i]);
 				return true;	
 			}
